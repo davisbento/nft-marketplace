@@ -1,6 +1,11 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
 import fs from "fs";
+import { resolve } from 'path';
+
+import { config as dotenvConfig } from 'dotenv';
+
+dotenvConfig({ path: resolve(__dirname, './.env') });
 
 const privateKey = fs.readFileSync(".secret", "utf8").toString();
 
