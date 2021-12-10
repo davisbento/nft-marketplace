@@ -1,15 +1,22 @@
-import { task } from "hardhat/config";
+import { HardhatUserConfig } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
+import fs from "fs";
 
-task("accounts", "Prints the list of accounts", async (args, hre) => {
-  const accounts = await hre.ethers.getSigners();
+const privateKey = fs.readFileSync(".secret", "utf8").toString();
 
-  for (const account of accounts) {
-    console.log(await account.address);
+const configuration: HardhatUserConfig = {
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    mumbai: {
+      url: process.env.NET_URL,
+      accounts: [privateKey]
+    }
+  },
+  solidity: {
+    version: "0.8.4"
   }
-});
+}
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default {
-  solidity: "0.8.4"
-};
+export default configuration;
